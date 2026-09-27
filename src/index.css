@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #faf7f2;
+  --color-emerald: #0f5c4c;
+  --color-emerald-light: #1a7a65;
+  --color-gold: #c9a227;
+  --color-gold-light: #e8d48b;
+  --font-arabic: "Amiri", "Traditional Arabic", serif;
+}
+
+body {
+  @apply bg-cream text-emerald antialiased;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
+}
