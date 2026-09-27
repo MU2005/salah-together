@@ -1,5 +1,16 @@
 # React + Vite
 
+## Local setup
+
+Create a `.env` file in the project root with your Supabase project URL and anon key:
+
+```env
+VITE_SUPABASE_URL=https://your-project.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+Restart the Vite dev server after adding or changing these values. The home page works without Supabase configuration, but prayer tracking and the weekly challenge require it.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
