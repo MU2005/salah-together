@@ -2,6 +2,7 @@
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Weekly from './pages/Weekly'
+import History from './pages/History'
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:person" element={<Dashboard />} />
+        <Route path="/:person/history" element={<History />} />
         <Route path="/weekly" element={<Weekly />} />
       </Routes>
     </BrowserRouter>

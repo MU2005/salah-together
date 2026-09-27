@@ -18,6 +18,7 @@ export default function Dashboard() {
   const [photoFile, setPhotoFile] = useState(null)
   const [photoPreview, setPhotoPreview] = useState(null)
   const [uploading, setUploading] = useState(false)
+  const [viewPhoto, setViewPhoto] = useState(null) // for viewing uploaded photo
   const fileInputRef = useRef(null)
 
   useEffect(() => {
@@ -44,9 +45,11 @@ export default function Dashboard() {
   }, [person])
 
   function getStatus(prayer) {
+    // Already marked?
     if (attendance[prayer]) {
       return attendance[prayer].is_late ? 'late' : 'completed'
     }
+
     if (!times) return 'upcoming'
 
     const now = new Date()
@@ -58,21 +61,21 @@ export default function Dashboard() {
     else if (prayer === 'Asr') end = timeToDate(times.Maghrib)
     else if (prayer === 'Maghrib') end = timeToDate(times.Isha)
     else {
+      // Isha until ~4 AM next day
       end = new Date(start)
       end.setHours(4, 0, 0, 0)
-      if (end < start) end.setDate(end.getDate() + 1)
+      if (end <= start) end.setDate(end.getDate() + 1)
     }
 
     if (now < start) return 'upcoming'
     if (now >= start && now <= end) return 'open'
-    return 'missed'
+    return 'missed' // window expired, can still mark late
   }
 
   async function handlePhotoSelect(e) {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // Basic size check before compression
     if (file.size > 5 * 1024 * 1024) {
       alert('Photo is too large. Please choose a smaller one.')
       return
@@ -88,13 +91,14 @@ export default function Dashboard() {
     }
   }
 
-  async function handleMark(prayer, isLate = false) {
+  async function handleMark(prayer) {
     if (!photoFile) {
       alert('Please take or upload a photo as proof.')
       return
     }
 
     setUploading(true)
+    const isLate = getStatus(prayer) === 'missed'
 
     try {
       const today = new Date().toISOString().split('T')[0]
@@ -111,7 +115,6 @@ export default function Dashboard() {
 
       if (uploadError) throw uploadError
 
-      // Get public URL
       const { data: urlData } = supabase.storage
         .from('prayer-proofs')
         .getPublicUrl(fileName)
@@ -184,17 +187,32 @@ export default function Dashboard() {
       <div className="space-y-3">
         {PRAYERS.map((prayer) => {
           const status = getStatus(prayer)
-          const canMark = status === 'open' || status === 'missed'
 
           return (
             <PrayerCard
               key={prayer}
               name={prayer}
-              status={status === 'missed' ? 'late' : status}
-              onMark={() => canMark && setShowConfirm(prayer)}
+              status={status}
+              photoUrl={attendance[prayer]?.photo_url}
+              onMark={() => {
+                if (status === 'open' || status === 'missed') {
+                  setShowConfirm(prayer)
+                }
+              }}
+              onView={() => setViewPhoto(attendance[prayer]?.photo_url)}
             />
           )
         })}
+      </div>
+
+      {/* Link to History */}
+      <div className="mt-8 text-center">
+        <Link
+          to={`/${person}/history`}
+          className="text-sm text-gold font-medium hover:underline"
+        >
+          View full history →
+        </Link>
       </div>
 
       {/* Confirmation + Photo Modal */}
@@ -208,7 +226,6 @@ export default function Dashboard() {
               Allah knows what is in our hearts. Record truthfully.
             </p>
 
-            {/* Photo section */}
             <div className="mb-4">
               {photoPreview ? (
                 <div className="relative">
@@ -259,15 +276,35 @@ export default function Dashboard() {
                 Cancel
               </button>
               <button
-                onClick={() =>
-                  handleMark(showConfirm, getStatus(showConfirm) === 'missed')
-                }
+                onClick={() => handleMark(showConfirm)}
                 disabled={uploading || !photoFile}
                 className="flex-1 py-2.5 rounded-xl bg-emerald text-white font-medium disabled:opacity-50"
               >
                 {uploading ? 'Saving...' : 'Yes, mark it'}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Photo Modal */}
+      {viewPhoto && (
+        <div
+          className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
+          onClick={() => setViewPhoto(null)}
+        >
+          <div className="relative max-w-sm w-full">
+            <img
+              src={viewPhoto}
+              alt="Prayer proof"
+              className="w-full rounded-xl"
+            />
+            <button
+              onClick={() => setViewPhoto(null)}
+              className="absolute -top-3 -right-3 bg-white text-emerald w-8 h-8 rounded-full font-bold"
+            >
+              ✕
+            </button>
           </div>
         </div>
       )}
