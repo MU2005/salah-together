@@ -4,49 +4,54 @@
   const abdullahPct = Math.round((abdullahCount / totalPossible) * 100)
 
   let resultText = ''
+  let resultColor = 'text-purple-light'
+
   if (umarCount > abdullahCount) {
-    resultText = 'Abdullah owes Umar a pizza!'
+    resultText = 'Umar is currently leading'
+    resultColor = 'text-purple-light'
   } else if (abdullahCount > umarCount) {
-    resultText = 'Umar owes Abdullah a pizza!'
+    resultText = 'Abdullah is currently leading'
+    resultColor = 'text-purple-light'
   } else {
-    resultText = "It's a draw — no pizza owed!"
+    resultText = "It's currently a draw"
+    resultColor = 'text-muted'
   }
 
   return (
-    <div className="bg-white rounded-2xl p-5 shadow-sm border border-emerald/10">
-      <h2 className="text-lg font-semibold text-emerald mb-1">Weekly Challenge</h2>
-      <p className="text-xs text-emerald/60 mb-4">{weekLabel} · 35 possible prayers</p>
+    <div className="card rounded-2xl p-5">
+      <h2 className="text-lg font-semibold text-text mb-1">This Week</h2>
+      <p className="text-xs text-muted mb-5">{weekLabel} · 35 possible prayers</p>
 
-      <div className="space-y-3 mb-5">
+      <div className="space-y-4 mb-6">
         <div>
-          <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium">Umar</span>
-            <span>{umarCount} / 35</span>
+          <div className="flex justify-between text-sm mb-1.5">
+            <span className="font-medium text-text">Umar</span>
+            <span className="text-muted">{umarCount} / 35</span>
           </div>
-          <div className="h-2 bg-emerald/10 rounded-full overflow-hidden">
+          <div className="h-2 bg-white/5 rounded-full overflow-hidden">
             <div
-              className="h-full bg-emerald rounded-full"
+              className="h-full bg-gradient-to-r from-purple to-purple-light rounded-full"
               style={{ width: umarPct + '%' }}
             ></div>
           </div>
         </div>
 
         <div>
-          <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium">Abdullah</span>
-            <span>{abdullahCount} / 35</span>
+          <div className="flex justify-between text-sm mb-1.5">
+            <span className="font-medium text-text">Abdullah</span>
+            <span className="text-muted">{abdullahCount} / 35</span>
           </div>
-          <div className="h-2 bg-emerald/10 rounded-full overflow-hidden">
+          <div className="h-2 bg-white/5 rounded-full overflow-hidden">
             <div
-              className="h-full bg-emerald rounded-full"
+              className="h-full bg-gradient-to-r from-purple to-purple-light rounded-full"
               style={{ width: abdullahPct + '%' }}
             ></div>
           </div>
         </div>
       </div>
 
-      <div className="text-center bg-gold/10 text-amber-800 rounded-xl py-3 px-4 font-medium">
-        🍕 {resultText}
+      <div className={`text-center rounded-xl py-3 px-4 font-medium bg-white/5 ${resultColor}`}>
+        {resultText}
       </div>
     </div>
   )

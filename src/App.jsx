@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:person" element={<Dashboard />} />
-        <Route path="/:person/history" element={<History />} />
+        <Route path="/history" element={<History />} />
         <Route path="/weekly" element={<Weekly />} />
       </Routes>
     </BrowserRouter>

@@ -177,11 +177,11 @@ export default function Dashboard() {
         <div className="w-10"></div>
       </div>
 
-      {/* Progress */}
-      <div className="bg-white rounded-2xl p-4 mb-6 text-center shadow-sm">
-        <p className="text-sm text-emerald/60">Today's progress</p>
-        <p className="text-3xl font-bold text-emerald">{completedCount} / 5</p>
-      </div>
+     {/* Progress */}
+<div className="card rounded-2xl p-4 mb-6 text-center">
+  <p className="text-sm text-muted">Today's progress</p>
+  <p className="text-3xl font-bold text-text">{completedCount} / 5</p>
+</div>
 
       {/* Prayer list */}
       <div className="space-y-3">
@@ -207,107 +207,106 @@ export default function Dashboard() {
 
       {/* Link to History */}
       <div className="mt-8 text-center">
-        <Link
-          to={`/${person}/history`}
-          className="text-sm text-gold font-medium hover:underline"
-        >
-          View full history →
-        </Link>
+       <Link
+  to="/history"
+  className="text-sm text-gold font-medium hover:underline"
+>
+  View full history →
+</Link>
       </div>
+{/* Confirmation + Photo Modal */}
+{showConfirm && (
+  <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-end sm:items-center justify-center p-4 z-50">
+    <div className="card rounded-2xl p-5 max-w-sm w-full border border-purple/20">
+      <h3 className="text-lg font-semibold text-text mb-1">
+        Confirm {showConfirm}
+      </h3>
+      <p className="text-sm text-muted mb-4">
+        Allah knows what is in our hearts. Record truthfully.
+      </p>
 
-      {/* Confirmation + Photo Modal */}
-      {showConfirm && (
-        <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl p-5 max-w-sm w-full shadow-xl">
-            <h3 className="text-lg font-semibold text-emerald mb-1">
-              Confirm {showConfirm}
-            </h3>
-            <p className="text-sm text-emerald/80 mb-4">
-              Allah knows what is in our hearts. Record truthfully.
-            </p>
-
-            <div className="mb-4">
-              {photoPreview ? (
-                <div className="relative">
-                  <img
-                    src={photoPreview}
-                    alt="Proof"
-                    className="w-full h-40 object-cover rounded-xl"
-                  />
-                  <button
-                    onClick={() => {
-                      setPhotoFile(null)
-                      setPhotoPreview(null)
-                    }}
-                    className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded"
-                  >
-                    Change
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full border-2 border-dashed border-emerald/30 rounded-xl py-8 text-emerald/70 text-sm"
-                >
-                  📷 Take photo or upload proof
-                </button>
-              )}
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                capture="environment"
-                className="hidden"
-                onChange={handlePhotoSelect}
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  setShowConfirm(null)
-                  setPhotoFile(null)
-                  setPhotoPreview(null)
-                }}
-                className="flex-1 py-2.5 rounded-xl border border-emerald/30 text-emerald"
-                disabled={uploading}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => handleMark(showConfirm)}
-                disabled={uploading || !photoFile}
-                className="flex-1 py-2.5 rounded-xl bg-emerald text-white font-medium disabled:opacity-50"
-              >
-                {uploading ? 'Saving...' : 'Yes, mark it'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* View Photo Modal */}
-      {viewPhoto && (
-        <div
-          className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50"
-          onClick={() => setViewPhoto(null)}
-        >
-          <div className="relative max-w-sm w-full">
+      <div className="mb-4">
+        {photoPreview ? (
+          <div className="relative">
             <img
-              src={viewPhoto}
-              alt="Prayer proof"
-              className="w-full rounded-xl"
+              src={photoPreview}
+              alt="Proof"
+              className="w-full h-40 object-cover rounded-xl"
             />
             <button
-              onClick={() => setViewPhoto(null)}
-              className="absolute -top-3 -right-3 bg-white text-emerald w-8 h-8 rounded-full font-bold"
+              onClick={() => {
+                setPhotoFile(null)
+                setPhotoPreview(null)
+              }}
+              className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2.5 py-1 rounded-lg"
             >
-              ✕
+              Change
             </button>
           </div>
-        </div>
-      )}
+        ) : (
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="w-full border-2 border-dashed border-purple/30 rounded-xl py-8 text-purple-light/80 text-sm hover:border-purple/50 transition"
+          >
+            📷 Take photo or upload proof
+          </button>
+        )}
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          capture="environment"
+          className="hidden"
+          onChange={handlePhotoSelect}
+        />
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => {
+            setShowConfirm(null)
+            setPhotoFile(null)
+            setPhotoPreview(null)
+          }}
+          className="flex-1 py-2.5 rounded-xl border border-purple/30 text-muted"
+          disabled={uploading}
+        >
+          Cancel
+        </button>
+        <button
+          onClick={() => handleMark(showConfirm)}
+          disabled={uploading || !photoFile}
+          className="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-purple to-purple-dark text-white font-medium disabled:opacity-50"
+        >
+          {uploading ? 'Saving...' : 'Yes, mark it'}
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* View Photo Modal */}
+{viewPhoto && (
+  <div
+    className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+    onClick={() => setViewPhoto(null)}
+  >
+    <div className="relative max-w-sm w-full">
+      <img
+        src={viewPhoto}
+        alt="Prayer proof"
+        className="w-full rounded-2xl border border-purple/20"
+      />
+      <button
+        onClick={() => setViewPhoto(null)}
+        className="absolute -top-3 -right-3 bg-card text-text w-9 h-9 rounded-full font-bold border border-purple/30 shadow-lg"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+)}
     </div>
   )
 }

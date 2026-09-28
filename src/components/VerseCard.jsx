@@ -12,21 +12,23 @@ export default function VerseCard() {
   if (!verse) return null
 
   return (
-    <div className="bg-white/80 backdrop-blur rounded-2xl p-5 shadow-sm border border-emerald/10 text-center">
-      <p className="text-xs uppercase tracking-widest text-gold mb-3">A reminder for today</p>
-      
-      <p className="font-arabic text-2xl leading-relaxed text-emerald mb-3" dir="rtl">
+    <div className="card rounded-2xl p-5 text-center">
+      <p className="text-xs uppercase tracking-widest text-purple-light mb-3">
+        A reminder for today
+      </p>
+
+      <p className="font-arabic text-2xl leading-relaxed text-text mb-3" dir="rtl">
         {verse.arabic}
       </p>
-      
-      <p className="text-emerald/90 text-base mb-2 font-medium">
+
+      <p className="text-purple-light/90 text-base mb-2 font-medium">
         {verse.urdu}
       </p>
-      
-      <p className="text-emerald/70 text-sm italic mb-3">
+
+      <p className="text-muted text-sm italic mb-3">
         {verse.english}
       </p>
-      
+
       <p className="text-xs text-gold font-medium">
         {verse.reference}
       </p>

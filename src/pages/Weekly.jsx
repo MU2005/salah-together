@@ -10,10 +10,6 @@ export default function Weekly() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!supabase) {
-      return
-    }
-
     async function load() {
       const now = new Date()
       const start = startOfWeek(now, { weekStartsOn: 1 })
@@ -30,7 +26,7 @@ export default function Weekly() {
 
       let umar = 0
       let abdullah = 0
-      data?.forEach(row => {
+      data?.forEach((row) => {
         if (row.person === 'umar') umar++
         if (row.person === 'abdullah') abdullah++
       })
@@ -42,29 +38,23 @@ export default function Weekly() {
     load()
   }, [])
 
-  const weekLabel = format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'd MMM') + ' – ' + format(endOfWeek(new Date(), { weekStartsOn: 1 }), 'd MMM')
-
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-cream px-4 py-6 max-w-md mx-auto">
-        <Link to="/" className="text-emerald/70 text-sm">← Home</Link>
-        <p className="mt-8 text-center text-emerald">
-          Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to your .env file to use the weekly challenge.
-        </p>
-      </div>
-    )
-  }
+  const weekLabel =
+    format(startOfWeek(new Date(), { weekStartsOn: 1 }), 'd MMM') +
+    ' – ' +
+    format(endOfWeek(new Date(), { weekStartsOn: 1 }), 'd MMM')
 
   return (
-    <div className="min-h-screen bg-cream px-4 py-6 max-w-md mx-auto">
+    <div className="min-h-screen px-4 py-6 max-w-md mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <Link to="/" className="text-emerald/70 text-sm">← Home</Link>
-        <h1 className="text-xl font-bold text-emerald">Weekly Challenge</h1>
+        <Link to="/" className="text-muted text-sm">
+          ← Home
+        </Link>
+        <h1 className="text-xl font-bold text-text">Weekly Challenge</h1>
         <div className="w-10"></div>
       </div>
 
       {loading ? (
-        <p className="text-center text-emerald">Loading...</p>
+        <p className="text-center text-muted">Loading...</p>
       ) : (
         <WeeklyScore
           umarCount={umarCount}

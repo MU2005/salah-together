@@ -1,19 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-cream: #faf7f2;
-  --color-emerald: #0f5c4c;
-  --color-emerald-light: #1a7a65;
-  --color-gold: #c9a227;
-  --color-gold-light: #e8d48b;
+  --color-bg: #0c0a12;
+  --color-card: #16131f;
+  --color-card-hover: #1c1828;
+  --color-purple: #8b5cf6;
+  --color-purple-light: #a78bfa;
+  --color-purple-dark: #6d28d9;
+  --color-text: #f3e8ff;
+  --color-muted: #a1a1aa;
+  --color-gold: #fbbf24;
   --font-arabic: "Amiri", "Traditional Arabic", serif;
 }
 
 body {
-  @apply bg-cream text-emerald antialiased;
+  background: linear-gradient(160deg, #0c0a12 0%, #130f1c 50%, #0c0a12 100%);
+  color: var(--color-text);
   font-family: system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
 }
 
 .font-arabic {
   font-family: var(--font-arabic);
+}
+
+/* Premium card style */
+.card {
+  background: linear-gradient(145deg, #16131f, #1a1625);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
